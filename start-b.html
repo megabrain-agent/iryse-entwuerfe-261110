@@ -1,0 +1,1446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<title>Start B · Week ribbon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=League+Spartan:wght@600;700;800&family=Quicksand:wght@400;500;600;700&display=block" rel="stylesheet">
+<style>
+/* Gemeinsame Grundlage der sechs Entwürfe: Tokens aus design-system/themes/iryse.css und
+   src/app/globals.css (Theme iryse, nur hell), Hülle wie AppHuelle.tsx, Tab-Leiste dunkel mit
+   gelber Pille, Detail-Blatt, Meldung. */
+@view-transition {
+  navigation: auto;
+}
+:root {
+  --background: #ffffff;
+  --foreground: oklch(0.245 0.037 206);
+  --card: #ffffff;
+  --primary: oklch(0.245 0.037 206);
+  --primary-foreground: oklch(0.936 0.105 96);
+  --secondary: oklch(0.9784 0.0321 173);
+  --muted: oklch(0.9547 0.0022 206);
+  --muted-foreground: oklch(0.4337 0.0277 206);
+  --accent: oklch(0.952 0.0788 96);
+  --gelb: oklch(0.936 0.105 96);
+  --koralle: oklch(0.8433 0.0953 5);
+  --border: oklch(0.8867 0.0056 206);
+  --sidebar: oklch(0.2082 0.0129 206);
+  --sidebar-foreground: oklch(0.9547 0.0022 206);
+  --dv-1: oklch(0.5753 0.1626 255.53);
+  --dv-2: oklch(0.6708 0.175 40.64);
+  --dv-3: oklch(0.669 0.1408 162.11);
+  --dv-4: oklch(0.7644 0.1612 75.12);
+  --dv-5: oklch(0.7163 0.1412 357.39);
+  --dv-6: oklch(0.4331 0.1671 283.62);
+  --r-sm: 10px;
+  --r-md: 12px;
+  --r-lg: 14px;
+  --r-xl: 18px;
+  --shadow-md: 0px 8px 24px 0px rgba(20, 22, 28, 0.08), 0px 4px 16px 0px rgba(255, 234, 151, 0.28);
+  --schwebe: 0 4px 12px oklch(0.319 0.054 206 / 0.1), 0 12px 32px oklch(0.319 0.054 206 / 0.12);
+  --fokus-schein:
+    0 0 0 1px color-mix(in oklab, var(--accent) 60%, transparent),
+    0 0 14px 3px color-mix(in oklab, var(--accent) 65%, transparent),
+    0 3px 12px color-mix(in oklab, var(--primary) 16%, transparent);
+  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "League Spartan", "Quicksand", ui-sans-serif, sans-serif;
+  --font-hand: "Caveat", cursive;
+  --weich: cubic-bezier(0.2, 0.8, 0.2, 1);
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+body {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--foreground);
+  background: var(--background);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:focus-visible {
+  outline: none;
+  box-shadow: var(--fokus-schein);
+}
+svg.i {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+svg.i.s16 {
+  width: 16px;
+  height: 16px;
+}
+.zahl {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Hülle ---------- */
+.app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 92% 0%, rgba(255, 151, 176, 0.2), transparent 62%),
+    radial-gradient(ellipse 55% 45% at 2% 100%, rgba(255, 234, 151, 0.45), transparent 58%);
+}
+@media (min-width: 768px) {
+  body {
+    display: grid;
+    place-items: center;
+    background: oklch(0.97 0.004 206);
+  }
+  .app {
+    width: 390px;
+    height: min(844px, calc(100dvh - 64px));
+    border-radius: var(--r-xl);
+    border: 1px solid var(--border);
+    box-shadow: var(--schwebe);
+  }
+}
+.kopf {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 16px 8px;
+  flex-shrink: 0;
+}
+.kopf .logo {
+  width: 20px;
+  height: 32px;
+}
+.kopf h2 {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-serif);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  padding-top: 4px;
+}
+.kopf .werkzeug {
+  display: flex;
+  gap: 8px;
+}
+.kopf .werkzeug button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: var(--muted);
+  display: grid;
+  place-items: center;
+}
+.kopf .werkzeug .punkt {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--dv-5);
+  box-shadow: 0 0 0 2px var(--muted);
+}
+.haupt {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  padding: 0 16px 32px;
+  overscroll-behavior: contain;
+}
+.haupt::-webkit-scrollbar {
+  width: 8px;
+}
+.haupt::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+}
+.haupt:hover::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+/* ---------- Tab-Leiste ---------- */
+.tabs {
+  view-transition-name: tabs;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  padding: 8px 8px max(16px, env(safe-area-inset-bottom));
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+}
+.tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0;
+  border-radius: var(--r-md);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: background-color 0.25s var(--weich), color 0.25s var(--weich);
+}
+.tabs a[aria-current="page"] {
+  background: color-mix(in oklch, var(--gelb) 20%, transparent);
+  color: var(--gelb);
+}
+
+/* ---------- Bausteine ---------- */
+.abschnitt {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+.abschnitt-kopf {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 32px 0 8px;
+}
+.mehr {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  line-height: 1.15;
+}
+.karte {
+  background: var(--card);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
+}
+.block {
+  background: var(--card);
+  border-radius: var(--r-sm);
+}
+.klick {
+  box-shadow: 0 3px 14px color-mix(in oklab, var(--sf, var(--primary)) 18%, transparent);
+  transition:
+    box-shadow 0.25s var(--weich),
+    transform 0.25s var(--weich);
+}
+.klick:active {
+  transform: scale(0.985);
+}
+.etikett {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 0;
+  font-family: var(--font-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  background: var(--art);
+  color: var(--art-ink, #fff);
+  white-space: nowrap;
+}
+.art-punkt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.art-punkt::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--art);
+  flex-shrink: 0;
+}
+.knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  transition:
+    background-color 0.25s var(--weich),
+    color 0.25s var(--weich),
+    box-shadow 0.25s var(--weich),
+    transform 0.2s var(--weich);
+  white-space: nowrap;
+}
+.knopf:active {
+  transform: scale(0.98);
+}
+.knopf.primaer {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 3px 14px color-mix(in oklab, var(--primary) 30%, transparent);
+}
+.knopf.rand {
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+.knopf.weich {
+  background: var(--muted);
+}
+.knopf.gelb {
+  background: var(--gelb);
+  color: var(--primary);
+  box-shadow: 0 3px 14px color-mix(in oklab, var(--gelb) 60%, transparent);
+}
+.knopf[aria-pressed="true"].umschalt {
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--gelb) 80%, var(--primary));
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--border);
+  transition:
+    background-color 0.25s var(--weich),
+    color 0.25s var(--weich),
+    box-shadow 0.25s var(--weich);
+}
+.chip[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+.chip .farbe {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--art);
+}
+.chip-reihe {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 -16px;
+  padding: 4px 16px;
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+}
+.chip-reihe::-webkit-scrollbar {
+  display: none;
+}
+.fortschritt {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--muted);
+  overflow: hidden;
+}
+.fortschritt span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+}
+.bild {
+  background: var(--muted);
+  object-fit: cover;
+}
+.titel-text {
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.leise {
+  color: var(--muted-foreground);
+}
+.zeile-icon {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ---------- Detail-Blatt ---------- */
+.blatt-ebene {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+.blatt-ebene .schleier {
+  position: absolute;
+  inset: 0;
+  background: oklch(0.2082 0.0129 206 / 0.42);
+  opacity: 0;
+  transition: opacity 0.35s var(--weich);
+}
+.blatt-ebene.offen {
+  pointer-events: auto;
+}
+.blatt-ebene.offen .schleier {
+  opacity: 1;
+}
+.blatt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: calc(100% - 48px);
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  box-shadow: var(--schwebe);
+  transform: translateY(104%);
+  transition:
+    transform 0.42s var(--weich),
+    visibility 0s linear 0.42s;
+  visibility: hidden;
+  will-change: transform;
+}
+.blatt-ebene.offen .blatt {
+  transform: translateY(0);
+  visibility: visible;
+  transition:
+    transform 0.42s var(--weich),
+    visibility 0s;
+}
+.blatt .griff {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  margin-left: -20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 2;
+}
+.blatt .rolle {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  border-radius: inherit;
+}
+.blatt .kopfbild {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  background: var(--muted);
+}
+.blatt .kopfbild img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.blatt .kopfbild::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 30, 34, 0.28), transparent 38%);
+}
+.blatt .zu {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--schwebe);
+}
+.blatt .inhalt {
+  padding: 24px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.blatt .inhalt h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.blatt .fakten {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9375rem;
+}
+.blatt .fakten .zeile-icon svg {
+  margin-top: 2px;
+  color: var(--muted-foreground);
+}
+.blatt .countdown-zeile {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 4px 16px 4px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+.blatt .aktionen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.blatt .aktionen .knopf {
+  width: 100%;
+}
+.blatt .gruppe {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+}
+.blatt .kal-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.blatt .kal-liste .knopf {
+  justify-content: flex-start;
+  width: 100%;
+}
+.blatt .erinnerung {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------- Meldung ---------- */
+.meldung {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 96px;
+  z-index: 20;
+  padding: 16px;
+  border-radius: var(--r-md);
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  box-shadow: var(--schwebe);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s var(--weich),
+    transform 0.3s var(--weich);
+  pointer-events: none;
+}
+.meldung.da {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.einblenden {
+  animation: einblenden 0.6s var(--weich) both;
+}
+@keyframes einblenden {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Start B: Wochenband, Zeitleiste, Ankündigung ---------- */
+.gruss {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+}
+.gruss .hand {
+  font-size: 2rem;
+  margin: 0;
+}
+.band {
+  margin-top: 16px;
+  padding: 16px 8px 8px;
+}
+.band .kopfzeile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 8px;
+}
+.band .monat {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding-top: 4px;
+}
+.band .pfeile {
+  display: flex;
+  gap: 4px;
+}
+.band .pfeile button {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s var(--weich), color 0.2s var(--weich);
+}
+.band .pfeile button:hover {
+  background: var(--muted);
+}
+.band .pfeile button:disabled {
+  color: var(--border);
+  cursor: default;
+}
+.wochen {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.wochen::-webkit-scrollbar {
+  display: none;
+}
+.woche {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.tag {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0 16px;
+}
+.tag .wt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tag .nr {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 0.3s var(--weich), color 0.3s var(--weich), box-shadow 0.3s var(--weich);
+}
+.tag.heute .nr {
+  box-shadow: inset 0 0 0 2px var(--gelb);
+  background: var(--accent);
+}
+.tag[aria-selected="true"] .nr {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: none;
+}
+.tag .punkte {
+  position: absolute;
+  bottom: 4px;
+  display: flex;
+  gap: 4px;
+  height: 6px;
+}
+.tag .punkte i {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--art);
+}
+.tag .spanne {
+  position: absolute;
+  bottom: 5px;
+  height: 4px;
+  left: 0;
+  right: 0;
+  background: var(--art);
+}
+.tag .spanne.anfang {
+  left: 50%;
+  border-radius: 999px 0 0 999px;
+}
+.tag .spanne.ende {
+  right: 50%;
+  border-radius: 0 999px 999px 0;
+}
+.tagesfeld {
+  min-height: 112px;
+  margin-top: 16px;
+  display: grid;
+}
+.tagesfeld > * {
+  grid-area: 1 / 1;
+}
+.tagesinhalt {
+  transition: opacity 0.28s var(--weich), transform 0.28s var(--weich);
+}
+.tagesinhalt.weg {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.tagesinhalt .titel {
+  margin: 0 0 8px;
+}
+.leer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+.leer .hand {
+  font-size: 1.625rem;
+  color: var(--primary);
+}
+.zeile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+  text-align: left;
+}
+.zeile .rand {
+  width: 4px;
+  align-self: stretch;
+  border-radius: 999px;
+  background: var(--art);
+}
+.leiste {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 0;
+}
+.leiste::before {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--border), transparent);
+}
+.station {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 8px;
+  align-items: start;
+  text-align: left;
+  width: 100%;
+}
+.station .datum {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+  background: var(--background);
+  z-index: 1;
+  border-radius: var(--r-md);
+}
+.station .datum b {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  padding-top: 4px;
+}
+.station .datum small {
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.station .datum::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--art);
+  margin-top: 8px;
+  box-shadow: 0 0 0 4px var(--background);
+}
+.station .block {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.station .unten {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.station .bald {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.ansage {
+  overflow: hidden;
+  margin-top: 32px;
+}
+.ansage .von {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 0;
+}
+.ansage .von img {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+.ansage .bildstreifen {
+  margin: 16px 16px 0;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  position: relative;
+}
+.ansage .bildstreifen img {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+}
+.ansage .koerper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ansage .hand {
+  font-size: 2rem;
+  color: var(--primary);
+}
+.ansage .knoepfe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.lernen {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  margin-top: 16px;
+  width: 100%;
+  text-align: left;
+}
+.lernen img {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-md);
+  object-fit: cover;
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+/* Gemeinsame Daten und Bausteine der sechs Entwürfe.
+   Termine: Carmens Kalender „7 Iryse Team“ (Convex teamEvents, gelesen am 10.11.2026).
+   Art, Ort und Online-Link sind Vorschläge; der Kalender trägt heute nur Titel und Zeit. */
+;(function () {
+  const TZ = "Europe/Berlin"
+  const ARTEN = {
+    online: { name: "Live online", farbe: "var(--dv-1)", ink: "#fff" },
+    meetup: { name: "Meetup", farbe: "var(--dv-3)", ink: "oklch(0.15 0 0)" },
+    training: { name: "Training", farbe: "var(--dv-6)", ink: "#fff" },
+    feier: { name: "Celebration", farbe: "var(--dv-5)", ink: "oklch(0.15 0 0)" },
+    reise: { name: "Trip", farbe: "var(--dv-4)", ink: "oklch(0.15 0 0)" },
+  }
+  const TERMINE = [
+    { id: "open-house-thun", titel: "Open House Thun", art: "meetup", start: "2026-10-19T19:30:00+02:00", ende: "2026-10-19T21:00:00+02:00", ort: "Thun", bild: "community" },
+    { id: "anerkennungsgala", titel: "Anerkennungsgala Berlin", art: "feier", start: "2026-10-23T17:00:00+02:00", ende: "2026-10-23T23:00:00+02:00", ort: "Berlin", bild: "masterclass" },
+    { id: "unplugged", titel: "Lifeplus Unplugged", art: "meetup", start: "2026-10-24T12:00:00+02:00", ende: "2026-10-24T16:00:00+02:00", ort: null, bild: "lifeplus" },
+    { id: "unplugged-party", titel: "Lifeplus Unplugged Party", art: "feier", start: "2026-10-24T19:30:00+02:00", ende: "2026-10-25T00:00:00+02:00", ort: null, bild: "zumba" },
+    { id: "therapeutentreffen", titel: "Therapeutentreffen mit Angelika", art: "training", ganztags: true, tag: "2026-11-20", bisTag: "2026-11-23", ort: null, bild: "legacy" },
+    { id: "shop-4-you", titel: "Shop 4 You Themenabend", art: "online", start: "2026-11-25T20:00:00+01:00", ende: "2026-11-25T21:00:00+01:00", ort: null, online: true, bild: "shop" },
+    { id: "kick-off-winterthur", titel: "Kick-off Event Parkarena Winterthur", art: "meetup", start: "2027-02-27T09:00:00+01:00", ende: "2027-02-27T17:00:00+01:00", ort: "Parkarena Winterthur", bild: "body-movement" },
+    { id: "diamondtrip", titel: "Diamondtrip Punta Cana", art: "reise", ganztags: true, tag: "2027-03-13", bisTag: "2027-03-21", ort: "Punta Cana, Dominican Republic", bild: "freedom" },
+  ].map((t) => {
+    const s = t.ganztags ? new Date(`${t.tag}T00:00:00${offset(t.tag)}`) : new Date(t.start)
+    const e = t.ganztags ? new Date(`${t.bisTag}T00:00:00${offset(t.bisTag)}`) : new Date(t.ende)
+    return { ...t, s, e, a: ARTEN[t.art] }
+  })
+  function offset(tag) {
+    // Sommerzeit 2026 endet am 25.10., 2027 beginnt sie am 28.03.
+    return tag < "2026-10-25" || tag >= "2027-03-28" ? "+02:00" : "+01:00"
+  }
+
+  const f = (o) => new Intl.DateTimeFormat("en-GB", { timeZone: TZ, ...o })
+  const fTag = f({ year: "numeric", month: "2-digit", day: "2-digit" })
+  function tagSchluessel(d) {
+    const p = Object.fromEntries(fTag.formatToParts(d).map((x) => [x.type, x.value]))
+    return `${p.year}-${p.month}-${p.day}`
+  }
+  const fmt = {
+    wtKurz: (d) => f({ weekday: "short" }).format(d),
+    wtLang: (d) => f({ weekday: "long" }).format(d),
+    tag: (d) => f({ day: "numeric" }).format(d),
+    monKurz: (d) => f({ month: "short" }).format(d),
+    monLang: (d) => f({ month: "long" }).format(d),
+    monJahr: (d) => f({ month: "long", year: "numeric" }).format(d),
+    zeit: (d) => f({ hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d),
+    datumKurz: (d) => f({ weekday: "short", day: "numeric", month: "short" }).format(d),
+    datumLang: (d) => f({ weekday: "long", day: "numeric", month: "long" }).format(d),
+  }
+  /** Letzter Tag eines Termins (das Ende ist exklusiv). */
+  const letzterTag = (t) => new Date(t.e.getTime() - 1)
+  const mehrtaegig = (t) => tagSchluessel(t.s) !== tagSchluessel(letzterTag(t))
+  function tageVon(t) {
+    const tage = []
+    for (let d = new Date(t.s.getTime() + 12 * 3600e3); d < t.e; d = new Date(d.getTime() + 86400e3)) tage.push(tagSchluessel(d))
+    if (!tage.length) tage.push(tagSchluessel(t.s))
+    return tage
+  }
+  function zeitText(t) {
+    if (t.ganztags) return mehrtaegig(t) ? `${anzahlTage(t)} days` : "All day"
+    return `${fmt.zeit(t.s)}–${fmt.zeit(t.e)}`
+  }
+  const anzahlTage = (t) => tageVon(t).length
+  function datumText(t) {
+    if (!mehrtaegig(t)) return fmt.datumKurz(t.s)
+    const l = letzterTag(t)
+    return fmt.monKurz(t.s) === fmt.monKurz(l)
+      ? `${fmt.tag(t.s)}–${fmt.tag(l)} ${fmt.monKurz(l)}`
+      : `${fmt.tag(t.s)} ${fmt.monKurz(t.s)} – ${fmt.tag(l)} ${fmt.monKurz(l)}`
+  }
+  function datumLang(t) {
+    if (!mehrtaegig(t)) return `${fmt.datumLang(t.s)} ${f({ year: "numeric" }).format(t.s)}`
+    const l = letzterTag(t)
+    return `${fmt.datumLang(t.s)} – ${fmt.datumLang(l)} ${f({ year: "numeric" }).format(l)}`
+  }
+  const jetzt = () => new Date()
+  const kommend = () => TERMINE.filter((t) => t.e > jetzt()).sort((a, b) => a.s - b.s)
+  const vergangen = () => TERMINE.filter((t) => t.e <= jetzt()).sort((a, b) => b.s - a.s)
+  const termin = (id) => TERMINE.find((t) => t.id === id)
+  function rest(t) {
+    const ms = Math.max(0, t.s - jetzt())
+    return {
+      ms,
+      tage: Math.floor(ms / 86400e3),
+      std: Math.floor((ms % 86400e3) / 3600e3),
+      min: Math.floor((ms % 3600e3) / 60e3),
+      sek: Math.floor((ms % 60e3) / 1e3),
+      laeuft: t.s <= jetzt() && t.e > jetzt(),
+    }
+  }
+  function abstandText(t) {
+    const r = rest(t)
+    if (r.laeuft) return "Happening now"
+    const heute = tagSchluessel(jetzt())
+    const tagDiff = Math.round((new Date(`${tagSchluessel(t.s)}T12:00:00Z`) - new Date(`${heute}T12:00:00Z`)) / 86400e3)
+    if (tagDiff === 0) return `Today, ${fmt.zeit(t.s)}`
+    if (tagDiff === 1) return "Tomorrow"
+    if (tagDiff < 14) return `In ${tagDiff} days`
+    if (tagDiff < 60) return `In ${Math.round(tagDiff / 7)} weeks`
+    return `In ${Math.round(tagDiff / 30.4)} months`
+  }
+  function gruss() {
+    const h = Number(f({ hour: "numeric", hourCycle: "h23" }).format(jetzt()))
+    return h < 11 ? "Good morning" : h < 17 ? "Hello" : "Good evening"
+  }
+
+  /* ---------- Icons (lucide) ---------- */
+  const P = {
+    house: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+    compass: '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>',
+    chat: '<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',
+    kalender: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/>',
+    ich: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>',
+    suche: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    glocke: '<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>',
+    rechts: '<path d="m9 18 6-6-6-6"/>',
+    links: '<path d="m15 18-6-6 6-6"/>',
+    ort: '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+    video: '<path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
+    kalPlus: '<path d="M8 2v4"/><path d="M16 2v4"/><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><path d="M3 10h18"/><path d="M16 19h6"/><path d="M19 16v6"/>',
+    uhr: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    funken: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+    x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    teilen: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+    pfeil: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    play: '<path d="M6 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L7.5 3.64A1 1 0 0 0 6 4.5z"/>',
+    haken: '<path d="M20 6 9 17l-5-5"/>',
+    navi: '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
+  }
+  const icon = (n, kl = "") => `<svg class="i ${kl}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c])
+  const bild = (n) => `img/${n}.webp`
+  const artStil = (t) => `--art:${t.a.farbe};--art-ink:${t.a.ink}`
+  const etikett = (t) => `<span class="etikett" style="${artStil(t)}">${t.a.name}</span>`
+
+  /* ---------- Hülle ---------- */
+  function kopf(titel) {
+    return `<header class="kopf">
+      <img class="logo" src="img/leaf-ink.png" alt="iryse" width="20" height="32">
+      <h2>${titel}</h2>
+      <div class="werkzeug">
+        <button type="button" aria-label="Search" data-nicht="Search">${icon("suche")}</button>
+        <button type="button" aria-label="Notifications" data-nicht="Notifications">${icon("glocke")}<span class="punkt"></span></button>
+      </div>
+    </header>`
+  }
+  function tabs(aktiv, ziele) {
+    const liste = [
+      ["start", "Start", "house", ziele.start],
+      ["learn", "Discover", "compass", null],
+      ["community", "Connect", "chat", null],
+      ["event", "Event", "kalender", ziele.event],
+      ["me", "Me", "ich", null],
+    ]
+    return `<nav class="tabs" aria-label="Team app">${liste
+      .map(
+        ([id, name, ic, href]) =>
+          `<a href="${href || "#"}" ${id === aktiv ? 'aria-current="page"' : ""} ${href ? "" : `data-nicht="${name}"`}>${icon(ic)}<span>${name}</span></a>`
+      )
+      .join("")}</nav>`
+  }
+
+  /* ---------- Meldung ---------- */
+  let meldungUhr
+  function meldung(text) {
+    const m = document.querySelector(".meldung")
+    if (!m) return
+    m.textContent = text
+    m.classList.add("da")
+    clearTimeout(meldungUhr)
+    meldungUhr = setTimeout(() => m.classList.remove("da"), 2600)
+  }
+
+  /* ---------- Kalender-Links ---------- */
+  const utc = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")
+  function googleLink(t) {
+    const daten = t.ganztags ? `${t.tag.replace(/-/g, "")}/${t.bisTag.replace(/-/g, "")}` : `${utc(t.s)}/${utc(t.e)}`
+    const q = new URLSearchParams({ action: "TEMPLATE", text: t.titel, dates: daten, details: "Iryse Sisterhood event", location: t.ort || (t.online ? "Online" : "") })
+    return `https://calendar.google.com/calendar/render?${q}`
+  }
+  function outlookLink(t) {
+    const q = new URLSearchParams({ path: "/calendar/action/compose", rru: "addevent", subject: t.titel, startdt: t.ganztags ? t.tag : t.s.toISOString(), enddt: t.ganztags ? t.bisTag : t.e.toISOString(), location: t.ort || (t.online ? "Online" : "") })
+    if (t.ganztags) q.set("allday", "true")
+    return `https://outlook.live.com/calendar/0/deeplink/compose?${q}`
+  }
+  function icsLaden(t) {
+    const z = (s) => s.replace(/[,;]/g, (c) => "\\" + c)
+    const zeilen = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//iryse//sisterhood draft//EN", "BEGIN:VEVENT",
+      `UID:${t.id}@iryse.team`, `DTSTAMP:${utc(new Date())}`,
+      t.ganztags ? `DTSTART;VALUE=DATE:${t.tag.replace(/-/g, "")}` : `DTSTART:${utc(t.s)}`,
+      t.ganztags ? `DTEND;VALUE=DATE:${t.bisTag.replace(/-/g, "")}` : `DTEND:${utc(t.e)}`,
+      `SUMMARY:${z(t.titel)}`, t.ort ? `LOCATION:${z(t.ort)}` : "", "END:VEVENT", "END:VCALENDAR",
+    ].filter(Boolean)
+    const url = URL.createObjectURL(new Blob([zeilen.join("\r\n")], { type: "text/calendar" }))
+    const a = Object.assign(document.createElement("a"), { href: url, download: `${t.id}.ics` })
+    document.body.append(a)
+    a.click()
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 4000)
+  }
+
+  /* ---------- Erinnerung (nur in diesem Browser) ---------- */
+  const ERINNERUNG = [["off", "Off"], ["0", "At start"], ["15", "15 min before"], ["60", "1 hour before"], ["1440", "1 day before"]]
+  function erinnerung(id) {
+    try {
+      return localStorage.getItem(`iry-erinnerung-${id}`) || "off"
+    } catch {
+      return "off"
+    }
+  }
+  function erinnerungSetzen(id, wert) {
+    try {
+      localStorage.setItem(`iry-erinnerung-${id}`, wert)
+    } catch {}
+    document.querySelectorAll(`[data-erinnerung-fuer="${id}"]`).forEach((el) => {
+      el.setAttribute("aria-pressed", String(wert !== "off"))
+    })
+  }
+
+  /* ---------- Detail-Blatt ---------- */
+  let blattUhr
+  function blattOeffnen(id) {
+    const t = termin(id)
+    if (!t) return
+    const ebene = document.querySelector(".blatt-ebene")
+    const vorbei = t.e <= jetzt()
+    const ort = t.online
+      ? `<div class="zeile-icon">${icon("video", "s16")}<span>Online · the link appears here</span></div>`
+      : t.ort
+        ? `<div class="zeile-icon">${icon("ort", "s16")}<span>${esc(t.ort)}</span></div>`
+        : ""
+    const haupt = t.online
+      ? `<button class="knopf primaer" data-nicht="Join online">${icon("video")}Join online</button>`
+      : t.ort
+        ? `<a class="knopf primaer" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/${encodeURIComponent(t.ort)}">${icon("navi")}Directions</a>`
+        : `<button class="knopf primaer" data-ics="${t.id}">${icon("kalPlus")}Save</button>`
+    const wert = erinnerung(t.id)
+    ebene.querySelector(".rolle").innerHTML = `
+      <div class="kopfbild"><img src="${bild(t.bild)}" alt=""></div>
+      <div class="inhalt">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${etikett(t)}</div>
+        <h3>${esc(t.titel)}</h3>
+        <div class="fakten">
+          <div class="zeile-icon">${icon("kalender", "s16")}<span>${datumLang(t)}</span></div>
+          <div class="zeile-icon">${icon("uhr", "s16")}<span>${t.ganztags ? (mehrtaegig(t) ? `All day · ${anzahlTage(t)} days` : "All day") : `${fmt.zeit(t.s)}–${fmt.zeit(t.e)}`}</span></div>
+          ${ort}
+        </div>
+        ${vorbei ? "" : `<span class="countdown-zeile">${icon("uhr", "s16")}<span class="zahl" data-countdown="${t.id}">${abstandText(t)}</span></span>`}
+        ${vorbei ? "" : `<div class="aktionen">${haupt}<button class="knopf rand" data-teilen="${t.id}">${icon("teilen")}Share</button></div>`}
+        ${vorbei ? "" : `<div class="gruppe">
+          <h4 class="abschnitt">Remind me</h4>
+          <div class="erinnerung">${ERINNERUNG.map(([w, n]) => `<button class="chip" data-erinnerung="${w}" aria-pressed="${w === wert}">${n}</button>`).join("")}</div>
+        </div>
+        <div class="gruppe">
+          <h4 class="abschnitt">Add to my calendar</h4>
+          <div class="kal-liste">
+            <a class="knopf rand" target="_blank" rel="noreferrer" href="${googleLink(t)}">${icon("kalPlus")}Google Calendar</a>
+            <button class="knopf rand" data-ics="${t.id}">${icon("kalPlus")}Apple Calendar or Outlook app</button>
+            <a class="knopf rand" target="_blank" rel="noreferrer" href="${outlookLink(t)}">${icon("kalPlus")}Outlook on the web</a>
+          </div>
+        </div>`}
+      </div>`
+    ebene.querySelector(".rolle").scrollTop = 0
+    ebene.querySelector(".blatt").style.transform = ""
+    ebene.classList.add("offen")
+    ebene.setAttribute("aria-hidden", "false")
+    ebene.dataset.id = t.id
+    ebene.querySelectorAll("[data-erinnerung]").forEach((b) =>
+      b.addEventListener("click", () => {
+        ebene.querySelectorAll("[data-erinnerung]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)))
+        erinnerungSetzen(t.id, b.dataset.erinnerung)
+      })
+    )
+    clearInterval(blattUhr)
+    blattUhr = setInterval(() => {
+      const el = ebene.querySelector("[data-countdown]")
+      if (el) el.textContent = abstandText(t)
+    }, 30000)
+    setTimeout(() => ebene.querySelector(".zu").focus({ preventScroll: true }), 50)
+  }
+  function blattSchliessen() {
+    const ebene = document.querySelector(".blatt-ebene")
+    if (!ebene) return
+    ebene.classList.remove("offen")
+    ebene.setAttribute("aria-hidden", "true")
+    ebene.querySelector(".blatt").style.transform = ""
+    clearInterval(blattUhr)
+  }
+
+  function grundgeruest(app) {
+    app.insertAdjacentHTML(
+      "beforeend",
+      `<div class="blatt-ebene" aria-hidden="true">
+        <div class="schleier" data-zu></div>
+        <div class="blatt" role="dialog" aria-modal="true" aria-label="Event">
+          <span class="griff"></span>
+          <button class="zu" type="button" aria-label="Close" data-zu>${icon("x")}</button>
+          <div class="rolle"></div>
+        </div>
+      </div>
+      <div class="meldung" role="status" aria-live="polite"></div>`
+    )
+    const ebene = app.querySelector(".blatt-ebene")
+    const blatt = ebene.querySelector(".blatt")
+    // Nach unten ziehen schließt das Blatt (nur wenn oben gescrollt).
+    let y0 = null
+    let dy = 0
+    blatt.addEventListener("touchstart", (e) => {
+      if (ebene.querySelector(".rolle").scrollTop > 0) return
+      y0 = e.touches[0].clientY
+      dy = 0
+      blatt.style.transition = "none"
+    }, { passive: true })
+    blatt.addEventListener("touchmove", (e) => {
+      if (y0 === null) return
+      dy = Math.max(0, e.touches[0].clientY - y0)
+      blatt.style.transform = `translateY(${dy}px)`
+    }, { passive: true })
+    blatt.addEventListener("touchend", () => {
+      if (y0 === null) return
+      blatt.style.transition = ""
+      y0 = null
+      if (dy > 90) blattSchliessen()
+      else blatt.style.transform = ""
+    })
+    document.addEventListener("keydown", (e) => e.key === "Escape" && blattSchliessen())
+    app.addEventListener("click", (e) => {
+      const z = e.target.closest("[data-zu]")
+      if (z) return blattSchliessen()
+      const auf = e.target.closest("[data-termin]")
+      if (auf) {
+        e.preventDefault()
+        return blattOeffnen(auf.dataset.termin)
+      }
+      const ics = e.target.closest("[data-ics]")
+      if (ics) return icsLaden(termin(ics.dataset.ics))
+      const teilen = e.target.closest("[data-teilen]")
+      if (teilen) {
+        const t = termin(teilen.dataset.teilen)
+        const text = `${t.titel} · ${datumText(t)}`
+        if (navigator.share) navigator.share({ title: t.titel, text }).catch(() => {})
+        else navigator.clipboard?.writeText(text).then(() => meldung("Copied"), () => {})
+        return
+      }
+      const nicht = e.target.closest("[data-nicht]")
+      if (nicht) {
+        e.preventDefault()
+        meldung(`${nicht.dataset.nicht} is not part of this draft.`)
+      }
+    })
+  }
+
+  /* Live-Countdown für alle [data-uhr] Elemente: Inhalt wechselt, Maße bleiben (tabular-nums). */
+  function uhrenStarten() {
+    const tick = () =>
+      document.querySelectorAll("[data-uhr]").forEach((el) => {
+        const r = rest(termin(el.dataset.uhr))
+        const teil = el.dataset.teil
+        const p = (n) => String(n).padStart(2, "0")
+        el.textContent = teil === "tage" ? r.tage : teil === "std" ? p(r.std) : teil === "min" ? p(r.min) : teil === "sek" ? p(r.sek) : abstandText(termin(el.dataset.uhr))
+      })
+    tick()
+    setInterval(tick, 1000)
+  }
+
+  window.IRY = { TERMINE, ARTEN, kommend, vergangen, termin, tageVon, tagSchluessel, fmt, zeitText, datumText, datumLang, mehrtaegig, anzahlTage, letzterTag, abstandText, rest, gruss, icon, esc, bild, artStil, etikett, kopf, tabs, grundgeruest, blattOeffnen, meldung, uhrenStarten, erinnerung, jetzt }
+})()
+
+</script>
+<script>
+;(function () {
+  const { kommend, icon, esc, bild, etikett, fmt, datumText, zeitText, kopf, tabs, artStil, tageVon, tagSchluessel, abstandText, TERMINE, letzterTag } = IRY
+  const app = document.getElementById("app")
+  const heute = IRY.jetzt()
+  const heuteS = tagSchluessel(heute)
+  // Zwei Wochen ab Montag dieser Woche
+  const mittag = new Date(`${heuteS}T12:00:00Z`)
+  const montag = new Date(mittag.getTime() - ((mittag.getUTCDay() + 6) % 7) * 86400e3)
+  const wochen = [0, 1, 2, 3].map((w) => Array.from({ length: 7 }, (_, i) => new Date(montag.getTime() + (w * 7 + i) * 86400e3)))
+  const jeTag = new Map()
+  for (const t of TERMINE) for (const s of tageVon(t)) jeTag.set(s, [...(jeTag.get(s) || []), t])
+  const zelle = (d) => {
+    const s = tagSchluessel(d)
+    const liste = jeTag.get(s) || []
+    const spannen = liste.filter((t) => tageVon(t).length > 1)
+    const punkte = liste.filter((t) => tageVon(t).length === 1)
+    return `<button class="tag ${s === heuteS ? "heute" : ""}" data-tag="${s}" aria-selected="${s === heuteS}" aria-label="${fmt.datumLang(d)}${liste.length ? `, ${liste.length} event` : ""}">
+      <span class="wt">${fmt.wtKurz(d).slice(0, 2)}</span>
+      <span class="nr">${fmt.tag(d)}</span>
+      ${spannen.map((t) => { const tage = tageVon(t); return `<span class="spanne ${tage[0] === s ? "anfang" : ""} ${tage.at(-1) === s ? "ende" : ""}" style="${artStil(t)}"></span>` }).join("")}
+      <span class="punkte">${punkte.map((t) => `<i style="${artStil(t)}"></i>`).join("")}</span>
+    </button>`
+  }
+  const liste = kommend()
+  app.innerHTML = `
+    ${kopf("Start")}
+    <main class="haupt">
+      <div class="gruss einblenden">
+        <p class="hand">Hi Carmen,</p>
+      </div>
+
+      <section class="karte band einblenden" style="animation-delay:.06s" aria-label="Your next weeks">
+        <div class="kopfzeile">
+          <span class="monat" id="monat">${fmt.monLang(heute)}</span>
+          <span class="pfeile">
+            <button type="button" id="zurueck" aria-label="Previous week" disabled>${icon("links")}</button>
+            <button type="button" id="vor" aria-label="Next week">${icon("rechts")}</button>
+          </span>
+        </div>
+        <div class="wochen" id="wochen">${wochen.map((w) => `<div class="woche">${w.map(zelle).join("")}</div>`).join("")}</div>
+      </section>
+
+      <div class="tagesfeld"><div class="tagesinhalt" id="tagesinhalt"></div></div>
+
+      <div class="abschnitt-kopf" style="margin-top:24px"><h4 class="abschnitt">Coming up</h4><a class="mehr" href="events-b.html">Calendar ${icon("rechts", "s16")}</a></div>
+      <div class="leiste">
+        ${liste.map((t) => `
+          <button class="station" style="${artStil(t)}" data-termin="${t.id}">
+            <span class="datum"><small>${fmt.monKurz(t.s)}</small><b>${fmt.tag(t.s)}</b></span>
+            <span class="block klick" style="--sf:var(--art)">
+              <span class="titel-text">${esc(t.titel)}</span>
+              <span class="leise" style="font-size:.875rem">${datumText(t)} · ${zeitText(t)}</span>
+              <span class="unten"><span class="art-punkt">${t.a.name}</span><span class="bald" data-uhr="${t.id}">${abstandText(t)}</span></span>
+            </span>
+          </button>`).join("")}
+      </div>
+
+      <article class="karte ansage">
+        <div class="von">
+          <img src="${bild("carmen-portrait")}" alt="">
+          <div><div style="font-weight:700">Carmen</div><div class="leise" style="font-size:.8125rem">Announcement</div></div>
+        </div>
+        <div class="bildstreifen"><img src="${bild("body-movement")}" alt="" loading="lazy"></div>
+        <div class="koerper">
+          <span class="hand">Save the date!</span>
+          <span class="titel-text" style="font-size:1.125rem">Kick-off Event Parkarena Winterthur</span>
+          <span class="leise">Saturday, 27 February 2027 · 09:00–17:00</span>
+          <div class="knoepfe">
+            <button class="knopf rand" data-ics="kick-off-winterthur">${icon("kalPlus")}Add</button>
+            <button class="knopf primaer" data-termin="kick-off-winterthur">Details</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="abschnitt-kopf"><h4 class="abschnitt">Continue learning</h4></div>
+      <button class="karte lernen" data-nicht="Courses">
+        <img src="${bild("metabolic")}" alt="">
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+          <span class="titel-text">How does the MR work?</span>
+          <span class="leise" style="font-size:.875rem">Metabolic Reset</span>
+          <span class="fortschritt" style="margin-top:4px"><span style="width:18%"></span></span>
+        </span>
+        ${icon("rechts")}
+      </button>
+      <button class="karte lernen" data-nicht="The App-Fairy">
+        <span style="width:56px;height:56px;border-radius:12px;background:var(--accent);display:grid;place-items:center;flex-shrink:0">${icon("funken")}</span>
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+          <span class="titel-text">Ask the App-Fairy</span>
+          <span class="leise" style="font-size:.875rem">Questions about Carmen’s courses, answered from the lessons.</span>
+        </span>
+        ${icon("rechts")}
+      </button>
+    </main>
+    ${tabs("start", { start: "start-b.html", event: "events-b.html" })}`
+  IRY.grundgeruest(app)
+
+  const inhalt = document.getElementById("tagesinhalt")
+  function zeigeTag(s, sofort) {
+    const d = new Date(`${s}T12:00:00Z`)
+    const liste = (jeTag.get(s) || []).sort((a, b) => a.s - b.s)
+    const naechstes = kommend().find((t) => tagSchluessel(t.s) > s)
+    const titel = s === heuteS ? "Today" : fmt.datumLang(d)
+    const html = liste.length
+      ? `<h4 class="abschnitt titel">${titel}</h4>${liste.map((t) => `
+          <button class="block klick zeile" style="${artStil(t)};--sf:var(--art);margin-bottom:8px" data-termin="${t.id}">
+            <span class="rand"></span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+              <span class="titel-text">${esc(t.titel)}</span>
+              <span class="leise" style="font-size:.875rem">${zeitText(t)}${t.ort ? ` · ${esc(t.ort)}` : t.online ? " · Online" : ""}</span>
+            </span>
+            ${etikett(t)}
+          </button>`).join("")}`
+      : `<div class="leer"><h4 class="abschnitt">${titel}</h4><span class="hand">${s === heuteS ? "Nothing planned today. A day for you." : "A free day."}</span>${naechstes ? `<button class="mehr" style="justify-content:flex-start" data-termin="${naechstes.id}">Next: ${esc(naechstes.titel)} ${icon("rechts", "s16")}</button>` : ""}</div>`
+    if (sofort) { inhalt.innerHTML = html; return }
+    inhalt.classList.add("weg")
+    setTimeout(() => { inhalt.innerHTML = html; inhalt.classList.remove("weg") }, 200)
+  }
+  zeigeTag(heuteS, true)
+  app.querySelectorAll("[data-tag]").forEach((b) =>
+    b.addEventListener("click", () => {
+      app.querySelectorAll("[data-tag]").forEach((x) => x.setAttribute("aria-selected", String(x === b)))
+      zeigeTag(b.dataset.tag)
+    })
+  )
+  const band = document.getElementById("wochen")
+  const vor = document.getElementById("vor")
+  const zurueck = document.getElementById("zurueck")
+  const monat = document.getElementById("monat")
+  vor.onclick = () => band.scrollBy({ left: band.clientWidth, behavior: "smooth" })
+  zurueck.onclick = () => band.scrollBy({ left: -band.clientWidth, behavior: "smooth" })
+  band.addEventListener("scroll", () => {
+    const i = Math.round(band.scrollLeft / band.clientWidth)
+    zurueck.disabled = i === 0
+    vor.disabled = i === wochen.length - 1
+    monat.textContent = fmt.monLang(wochen[i][3])
+  }, { passive: true })
+  IRY.uhrenStarten()
+})()
+</script>
+</body>
+</html>
